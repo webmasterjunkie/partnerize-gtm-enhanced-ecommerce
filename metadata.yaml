@@ -1,0 +1,5 @@
+homepage: "https://partnerize.com/en"
+versions:
+  # Latest version
+  - sha: 
+    changeNotes: Initial release.
