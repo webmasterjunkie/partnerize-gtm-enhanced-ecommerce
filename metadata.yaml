@@ -1,5 +1,5 @@
 homepage: "https://partnerize.com/en"
 versions:
   # Latest version
-  - sha: 
+  - sha: 81eb55f6f8768d02604867fa72b06d6a9c92d77f
     changeNotes: Initial release.
