@@ -158,27 +158,27 @@ const copyFromDataLayer = require('copyFromDataLayer');
 const ecom = copyFromDataLayer('ecommerce');
 
 // Begin setup of the tracking pixel
-var url = 'https://prf.hn/conversion/campaign:' + data.CampaignID + '/';
+var url = 'https://prf.hn/conversion/campaign:' + encodeUriComponent(data.CampaignID) + '/';
 
 // Add the order id to the pixel
 if (typeof ecom.purchase.actionField.id != 'undefined'){
-  url = url + 'conversionref:' + ecom.purchase.actionField.id + '/';
+  url = url + 'conversionref:' + encodeUriComponent(ecom.purchase.actionField.id) + '/';
 }
 
 // Add the currency code if present
 if (typeof ecom.currencyCode != 'undefined'){
-  url = url + 'currency:' + ecom.currencyCode + '/';
+  url = url + 'currency:' + encodeUriComponent(ecom.currencyCode) + '/';
 }
 
 // Add the country code if present
 if (typeof ecom.countryCode != 'undefined'){
-  url = url + 'country:' + ecom.countryCode + '/';
+  url = url + 'country:' + encodeUriComponent(ecom.countryCode) + '/';
 }
 
 // Add the voucher code to the tracking pixel
 if (data.VoucherCode){
   if (typeof ecom.purchase.actionField.coupon != 'undefined'){
-	  url = url + 'voucher:' + ecom.purchase.actionField.coupon + '/';
+	  url = url + 'voucher:' + encodeUriComponent(ecom.purchase.actionField.coupon) + '/';
   }
 }
 
@@ -196,8 +196,11 @@ if (typeof ecom.purchase.products != 'undefined'){
 
 // Call data.gtmOnSuccess when the tag is finished.
 sendPixel(url, data.gtmOnSuccess, data.gtmOnFailure);
+
+// Enable logging for debugging purposes
 log(url);
 log(data);
+
 /*
 Remove any characters that could cause issues with the Partnerize parameter
 customParameters 	string 	The value from the data object
@@ -225,12 +228,16 @@ function createItemString(ecomProducts){
         case "currency": break;
 
         case "price":
+		  // Enable logging for debugging purposes
           log('value: ' + encodeUriComponent(ecomProducts[i][key].toString()));
+
           stringproducts = stringproducts + 'value:' + encodeUriComponent(ecomProducts[i][key].toString()) + '/';
           break;
 
         default:
+		  // Enable logging for debugging purposes
           log(key + ': ' + encodeUriComponent(ecomProducts[i][key].toString()));
+		  
           stringproducts = stringproducts + key + ':' + encodeUriComponent(ecomProducts[i][key].toString()) + '/';
           break;
       }
