@@ -1,5 +1,8 @@
 homepage: "https://partnerize.com/en"
 versions:
   # Latest version
+  - sha: 6a1816e57dc9ca9b291116c21b407c65ad57a6c8
+    changeNotes: Adds encoding for dataLayer variables.
+  # Older versions
   - sha: 81eb55f6f8768d02604867fa72b06d6a9c92d77f
     changeNotes: Initial release.
