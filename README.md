@@ -3,7 +3,8 @@ This tag utilizes Google Tag Manager’s `dataLayer` to populate a formatted Par
 ## dataLayer Format
 The [Enhanced Ecommerce Developer Guide](https://developers.google.com/tag-manager/enhanced-ecommerce) lists the required formatted for the `dataLayer` as it relates to this tag. You can view the specific requirements under the [Measuring Purchases](https://developers.google.com/tag-manager/enhanced-ecommerce#purchases) header.
 ### Example
-```<script>
+```
+<script>
 // Send transaction data with a pageview if available
 // when the page loads. Otherwise, use an event when the transaction
 // data becomes available.
@@ -40,4 +41,5 @@ dataLayer.push({
     }
   }
 });
-</script>```
+</script>
+```
