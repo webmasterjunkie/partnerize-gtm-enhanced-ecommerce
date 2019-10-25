@@ -172,37 +172,48 @@ const ecom = copyFromDataLayer('ecommerce');
 var url = 'https://prf.hn/conversion/campaign:' + encodeUriComponent(data.CampaignID) + '/';
 
 // Add the order id to the pixel
-if (typeof ecom.purchase.actionField.id != 'undefined'){
-  url = url + 'conversionref:' + encodeUriComponent(ecom.purchase.actionField.id) + '/';
+if (typeof ecom.purchase != 'undefined'){
+	if (typeof ecom.purchase.actionField != 'undefined'){
+		if (typeof ecom.purchase.actionField.id != 'undefined'){
+			url = url + 'conversionref:' + encodeUriComponent(ecom.purchase.actionField.id) + '/';
+		}
+	}
 }
 
 // Add the currency code if present
 if (typeof ecom.currencyCode != 'undefined'){
-  url = url + 'currency:' + encodeUriComponent(ecom.currencyCode) + '/';
+	url = url + 'currency:' + encodeUriComponent(ecom.currencyCode) + '/';
 }
 
 // Add the country code if present
 if (typeof ecom.countryCode != 'undefined'){
-  url = url + 'country:' + encodeUriComponent(ecom.countryCode) + '/';
+	url = url + 'country:' + encodeUriComponent(ecom.countryCode) + '/';
 }
 
 // Add the voucher code to the tracking pixel
 if (data.VoucherCode){
-  if (typeof ecom.purchase.actionField.coupon != 'undefined'){
-	  url = url + 'voucher:' + encodeUriComponent(ecom.purchase.actionField.coupon) + '/';
-  }
+	if (typeof ecom.purchase != 'undefined'){
+		if (typeof ecom.purchase.actionField != 'undefined'){
+			if (typeof ecom.purchase.actionField.coupon != 'undefined'){
+				url = url + 'voucher:' + encodeUriComponent(ecom.purchase.actionField.coupon) + '/';
+			}
+		}
+	}
 }
 
 // Add the custom basket level tracking parameters
+// These vaues are not directly related to the dataLayer ecommerce structure
 if (typeof data.CustomValues != 'undefined'){
-  data.CustomValues.forEach(function(element) {
-    url = url + formatParameter(element.customParameters) + ':' + encodeUriComponent(element.customValues) + '/';
-  });
+	data.CustomValues.forEach(function(element) {
+		url = url + formatParameter(element.customParameters) + ':' + encodeUriComponent(element.customValues) + '/';
+	});
 }
 
 // Add the item level values
-if (typeof ecom.purchase.products != 'undefined'){
-	url = url + createItemString(ecom.purchase.products);
+if (typeof ecom.purchase != 'undefined'){
+	if (typeof ecom.purchase.products != 'undefined'){
+		url = url + createItemString(ecom.purchase.products);
+	}
 }
 
 // Call data.gtmOnSuccess when the tag is finished.
@@ -211,6 +222,7 @@ sendPixel(url, data.gtmOnSuccess, data.gtmOnFailure);
 // Enable logging for debugging purposes
 log(url);
 log(data);
+log(ecom);
 
 /*
 Remove any characters that could cause issues with the Partnerize parameter
@@ -218,10 +230,10 @@ customParameters 	string 	The value from the data object
 return 				string	The value that is cleaned as a parameter name
 */
 function formatParameter(customParameters){
-  var string = customParameters.replace(' ', '_');
-  var regex = "/[^A-Za-z0-9_]/";
+	var string = customParameters.replace(' ', '_');
+	var regex = "/[^A-Za-z0-9_]/";
 
-  return string.replace(regex, '', string).toLowerCase();
+	return string.replace(regex, '', string).toLowerCase();
 }
 
 /*
@@ -230,34 +242,42 @@ ecomProducts	object/array	The dataLayer object
 return			string			The Partnerize string of product items
 */
 function createItemString(ecomProducts){
-  var stringproducts = '';
+	var stringproducts = '';
 
-  for (var i = 0; i < ecomProducts.length; i++){
-	stringproducts = stringproducts + '[';
-	for (var key in ecomProducts[i]){
-      switch (key){
-        case "currency": break;
+	for (var i = 0; i < ecomProducts.length; i++){
+		stringproducts = stringproducts + '[';
+		for (var key in ecomProducts[i]){
+			switch (key){
+				// Ignore currency if present at item level
+				case "currency": break;
 
-        case "price":
-		  // Enable logging for debugging purposes
-          log('value: ' + encodeUriComponent(ecomProducts[i][key].toString()));
+				// Convert GTM "price" to PZ "value"
+				case "price":
+					// Enable logging for debugging purposes
+					log('value: ' + encodeUriComponent(ecomProducts[i][key].toString()));
+					stringproducts = stringproducts + 'value:' + encodeUriComponent(ecomProducts[i][key].toString()) + '/';
+				break;
 
-          stringproducts = stringproducts + 'value:' + encodeUriComponent(ecomProducts[i][key].toString()) + '/';
-          break;
+				// Convert GTM "id" to PZ "sku"
+				case "id":
+					// Enable logging for debugging purposes
+					log('sku: ' + encodeUriComponent(ecomProducts[i][key].toString()));
+					stringproducts = stringproducts + 'sku:' + encodeUriComponent(ecomProducts[i][key].toString()) + '/';
+				break;
 
-        default:
-		  // Enable logging for debugging purposes
-          log(key + ': ' + encodeUriComponent(ecomProducts[i][key].toString()));
+				// Add the remaining product level values to the tag
+				default:
+					// Enable logging for debugging purposes
+					log(key + ': ' + encodeUriComponent(ecomProducts[i][key].toString()));
+					stringproducts = stringproducts + key + ':' + encodeUriComponent(ecomProducts[i][key].toString()) + '/';
+				break;
+			}
+		}
 
-          stringproducts = stringproducts + key + ':' + encodeUriComponent(ecomProducts[i][key].toString()) + '/';
-          break;
-      }
+		stringproducts = stringproducts + ']';
 	}
 
-	stringproducts = stringproducts + ']';
-  }
-
-  return stringproducts;
+	return stringproducts;
 }
 
 
