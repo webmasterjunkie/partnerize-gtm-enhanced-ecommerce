@@ -1,4 +1,5 @@
 homepage: "https://partnerize.com/en"
+documentation: "https://github.com/webmasterjunkie/partnerize-gtm-enhanced-ecommerce/blob/master/README.md"
 versions:
   # Latest version
   - sha: 0f3b1a2cc2a6fcf1c0d3e21e362b301aa6aa339e
