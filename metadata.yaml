@@ -2,9 +2,11 @@ homepage: "https://partnerize.com/en"
 documentation: "https://github.com/webmasterjunkie/partnerize-gtm-enhanced-ecommerce/blob/master/README.md"
 versions:
   # Latest version
+  - sha: 868f9084305c20beb58613c384f1061e0f11e15a
+    changeNotes: Add undefined error catch
+  # Older versions
   - sha: 0f3b1a2cc2a6fcf1c0d3e21e362b301aa6aa339e
     changeNotes: Add error catching to prevent errors in GTM.
-  # Older versions
   - sha: 8362ac7b28abec42ccca2ad7faeed332414a7fe0
     changeNotes: Add a description for custom values.
   - sha: 6a1816e57dc9ca9b291116c21b407c65ad57a6c8
