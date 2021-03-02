@@ -203,8 +203,13 @@ function createItemString(ecomProducts){
 				// Add the remaining product level values to the tag
 				default:
 					// Enable logging for debugging purposes
-					log(key + ': ' + encodeUriComponent(ecomProducts[i][key].toString()));
-					stringproducts = stringproducts + key + ':' + encodeUriComponent(ecomProducts[i][key].toString()) + '/';
+					if (typeof ecomProducts[i][key] !== 'undefined' && ecomProducts[i][key] !== null) {
+					    log(key + ': ' + encodeUriComponent(ecomProducts[i][key].toString()));
+					    stringproducts = stringproducts + key + ':' + encodeUriComponent(ecomProducts[i][key].toString()) + '/';
+					} else {
+					    log(key + ': null');
+					    stringproducts = stringproducts + key + ':/';
+					}
 				break;
 			}
 		}
@@ -363,5 +368,3 @@ scenarios: []
 ___NOTES___
 
 Created on 15/10/2019, 10:49:37
-
-
