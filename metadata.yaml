@@ -2,9 +2,11 @@ homepage: "https://partnerize.com/en"
 documentation: "https://github.com/webmasterjunkie/partnerize-gtm-enhanced-ecommerce/blob/master/README.md"
 versions:
   # Latest version
+  - sha: 7cd2e9b2e30a277fef6e1ddb35e5e3074b1bbf38
+    changeNotes: Fix for NULL and "undefinec" values on meta
+  # Older versions
   - sha: ffd40b8fac109478e6088c98dce0218d23850221
     changeNotes: Add clickref support
-  # Older versions
   - sha: 868f9084305c20beb58613c384f1061e0f11e15a
     changeNotes: Add undefined error catch
   - sha: 0f3b1a2cc2a6fcf1c0d3e21e362b301aa6aa339e
