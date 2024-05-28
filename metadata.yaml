@@ -2,7 +2,7 @@ homepage: "https://partnerize.com/en"
 documentation: "https://github.com/webmasterjunkie/partnerize-gtm-enhanced-ecommerce/blob/master/README.md"
 versions:
   # Latest version
-  - she: ec2a23840787e4ec43535fb5158d69db25aa7726
+  - sha: ec2a23840787e4ec43535fb5158d69db25aa7726
     changeNotes: Add ability to store cookie from cross-domain
   # Older versions
   - sha: 807fb61100bd30fe2aff85e284fa064f9e3dae90
